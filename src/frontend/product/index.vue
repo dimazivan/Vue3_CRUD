@@ -18,11 +18,12 @@ const fetchDataProduct = async () => {
             //set response data to state "api_product"
             data_product.value = response.data.data
         });
+
+    console.log(data_product);
 }
 
 //run hook "onMounted"
 onMounted(() => {
-
     //call method "fetchDataProduct"
     fetchDataProduct();
 });
@@ -34,7 +35,7 @@ onMounted(() => {
         <div class="row">
             <div class="col-md-12">
                 <router-link :to="{ name: 'product.create' }" class="btn btn-md btn-success rounded shadow border-0 mb-3">
-                    ADD NEW POST
+                    ADD NEW DATA
                 </router-link>
                 <div class="card border-0 rounded shadow">
                     <div class="card-body">

@@ -1,12 +1,9 @@
 <script setup>
 //import ref
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 //import router
 import { useRouter } from 'vue-router';
-
-//import api
-import api from "../../api";
 
 //init router
 const router = useRouter();
@@ -19,7 +16,9 @@ const price = ref("");
 const discount = ref("");
 const rating = ref("");
 const stock = ref("");
-const brand = ref("");
+// const brand = ref("");
+const cbbrand = ref("");
+const cbcategory = ref("");
 const errors = ref([]);
 
 //method for handle file changes
@@ -42,7 +41,9 @@ const storeProduct = async () => {
     formData.append("discountPercentage", discount.value);
     formData.append("rating", rating.value);
     formData.append("stock", stock.value);
-    formData.append("brand", brand.value);
+    // formData.append("brand", brand.value);
+    formData.append("brand", cbbrand.value);
+    formData.append("category", cbcategory.value);
 
     // Display the key/value pairs
     for (var pair of formData.entries()) {
@@ -60,8 +61,36 @@ const storeProduct = async () => {
     //         errors.value = error.response.data;
     //     });
 };
-</script>
 
+//import api
+import api from '../../api';
+
+const data_brand = ref([]);
+const data_category = ref([]);
+
+const fetchDataBrand = async () => {
+    await api.get('/api/data/cb/brand/product')
+        .then(response => {
+            data_brand.value = response.data.data
+        });
+
+    console.log(data_brand);
+}
+
+const fetchDataCategory = async () => {
+    await api.get('/api/data/cb/category/product')
+        .then(response => {
+            data_category.value = response.data.data
+        });
+
+    console.log(data_category);
+}
+
+onMounted(() => {
+    fetchDataBrand();
+    fetchDataCategory();
+});
+</script>
 
 <template>
     <div class="container mt-5">
@@ -124,23 +153,38 @@ const storeProduct = async () => {
                                     <span>{{ errors.stock[0] }}</span>
                                 </div>
                             </div>
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label class="form-label fw-bold">Product Brand</label>
                                 <input type="text" class="form-control" v-model="brand" placeholder="Product brand"
                                     min="100">
                                 <div v-if="errors.brand" class="alert alert-danger mt-2">
                                     <span>{{ errors.brand[0] }}</span>
                                 </div>
-                            </div>
-                            <!-- <div class="mb-3 cbbrand">
+                            </div> -->
+                            <div class="mb-3 cbbrand">
+                                <label class="form-label fw-bold">Product Brand</label>
                                 <select class="form-select" aria-label="Default select example" v-model="cbbrand">
-                                    <option value="" selected disabled>Please select one</option>
-                                    <option v-for="item in filters" :value="item">{{ item }}</option>
+                                    <option value="" selected disabled>Please select one brand</option>
+                                    <option v-for="(data_brand) in data_brand" value="{{ data_brand.brand }}">
+                                        {{ data_brand.brand }}
+                                    </option>
                                 </select>
                                 <div v-if="errors.cbbrand" class="alert alert-danger mt-2">
                                     <span>{{ errors.cbbrand[0] }}</span>
                                 </div>
-                            </div> -->
+                            </div>
+                            <div class="mb-3 cbbrand">
+                                <label class="form-label fw-bold">Product Category</label>
+                                <select class="form-select" aria-label="Default select example" v-model="cbcategory">
+                                    <option value="" selected disabled>Please select one category</option>
+                                    <option v-for="(data_category) in data_category" value="{{ data_category.category }}">
+                                        {{ data_category.category }}
+                                    </option>
+                                </select>
+                                <div v-if="errors.cbcategory" class="alert alert-danger mt-2">
+                                    <span>{{ errors.cbcategory[0] }}</span>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-md btn-primary rounded-sm shadow border-0">Ahay</button>
                         </form>
                     </div>
