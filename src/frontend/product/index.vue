@@ -28,6 +28,19 @@ onMounted(() => {
     fetchDataProduct();
 });
 
+//method delete data
+const deleteData = async (id) => {
+
+    //delete data with API
+    await api.delete(`/api/api_product/${id}`)
+        .then(() => {
+
+            //call method "fetchDataProduct"
+            fetchDataProduct();
+        })
+
+};
+
 </script>
 
 <template>
@@ -61,7 +74,8 @@ onMounted(() => {
                                     <td class="text-center">
                                         <router-link :to="{ name: 'product.edit', params: { id: data_products.id } }"
                                             class="btn btn-sm btn-primary rounded-sm shadow border-0 me-2">EDIT</router-link>
-                                        <button class="btn btn-sm btn-danger rounded-sm shadow border-0">DELETE</button>
+                                        <button @click.prevent="deleteData(data_products.id)"
+                                            class="btn btn-sm btn-danger rounded-sm shadow border-0">DELETE</button>
                                     </td>
                                 </tr>
                             </tbody>

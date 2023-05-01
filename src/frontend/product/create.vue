@@ -19,6 +19,8 @@ const stock = ref("");
 // const brand = ref("");
 const cbbrand = ref("");
 const cbcategory = ref("");
+const thumbnail = ref("");
+const fvoid = ref("");
 const errors = ref([]);
 
 //method for handle file changes
@@ -44,6 +46,8 @@ const storeProduct = async () => {
     // formData.append("brand", brand.value);
     formData.append("brand", cbbrand.value);
     formData.append("category", cbcategory.value);
+    formData.append("thumbnail", thumbnail.value);
+    formData.append("fvoid", fvoid.value);
 
     // Display the key/value pairs
     for (var pair of formData.entries()) {
@@ -51,15 +55,15 @@ const storeProduct = async () => {
     }
 
     //store data with API
-    // await api.post('/api/api_product', formData)
-    //     .then(() => {
-    //         //redirect
-    //         router.push({ path: "/product" });
-    //     })
-    //     .catch((error) => {
-    //         //assign response error data to state "errors"
-    //         errors.value = error.response.data;
-    //     });
+    await api.post('/api/api_product', formData)
+        .then(() => {
+            //redirect
+            router.push({ path: "/product" });
+        })
+        .catch((error) => {
+            //assign response error data to state "errors"
+            errors.value = error.response.data;
+        });
 };
 
 //import api
@@ -131,16 +135,16 @@ onMounted(() => {
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Product Discount</label>
-                                <input type="number" class="form-control" v-model="discount" placeholder="Product Price"
-                                    min="100">
+                                <input type="number" class="form-control" v-model="discount" placeholder="Product Discount"
+                                    min="0">
                                 <div v-if="errors.discount" class="alert alert-danger mt-2">
                                     <span>{{ errors.discount[0] }}</span>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Product stock</label>
-                                <input type="number" class="form-control" v-model="rating" placeholder="Product Price"
-                                    min="100">
+                                <label class="form-label fw-bold">Product Rating</label>
+                                <input type="number" class="form-control" v-model="rating" placeholder="Product Rating"
+                                    min="1">
                                 <div v-if="errors.rating" class="alert alert-danger mt-2">
                                     <span>{{ errors.rating[0] }}</span>
                                 </div>
@@ -148,24 +152,16 @@ onMounted(() => {
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Product Stock</label>
                                 <input type="number" class="form-control" v-model="stock" placeholder="Product Stock"
-                                    min="100">
+                                    min="1">
                                 <div v-if="errors.stock" class="alert alert-danger mt-2">
                                     <span>{{ errors.stock[0] }}</span>
                                 </div>
                             </div>
-                            <!-- <div class="mb-3">
-                                <label class="form-label fw-bold">Product Brand</label>
-                                <input type="text" class="form-control" v-model="brand" placeholder="Product brand"
-                                    min="100">
-                                <div v-if="errors.brand" class="alert alert-danger mt-2">
-                                    <span>{{ errors.brand[0] }}</span>
-                                </div>
-                            </div> -->
                             <div class="mb-3 cbbrand">
                                 <label class="form-label fw-bold">Product Brand</label>
                                 <select class="form-select" aria-label="Default select example" v-model="cbbrand">
                                     <option value="" selected disabled>Please select one brand</option>
-                                    <option v-for="(data_brand) in data_brand" value="{{ data_brand.brand }}">
+                                    <option v-for="(data_brand) in data_brand" :value="data_brand.brand">
                                         {{ data_brand.brand }}
                                     </option>
                                 </select>
@@ -177,12 +173,27 @@ onMounted(() => {
                                 <label class="form-label fw-bold">Product Category</label>
                                 <select class="form-select" aria-label="Default select example" v-model="cbcategory">
                                     <option value="" selected disabled>Please select one category</option>
-                                    <option v-for="(data_category) in data_category" value="{{ data_category.category }}">
+                                    <option v-for="(data_category) in data_category" :value="data_category.category">
                                         {{ data_category.category }}
                                     </option>
                                 </select>
                                 <div v-if="errors.cbcategory" class="alert alert-danger mt-2">
                                     <span>{{ errors.cbcategory[0] }}</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Product Thumbnail</label>
+                                <input type="text" class="form-control" v-model="thumbnail" placeholder="Product Thumbnail">
+                                <div v-if="errors.thumbnail" class="alert alert-danger mt-2">
+                                    <span>{{ errors.thumbnail[0] }}</span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Fvoid</label>
+                                <input type="number" class="form-control" v-model="fvoid" placeholder="fvoid" min="1"
+                                    max="2">
+                                <div v-if="errors.fvoid" class="alert alert-danger mt-2">
+                                    <span>{{ errors.fvoid[0] }}</span>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-md btn-primary rounded-sm shadow border-0">Ahay</button>

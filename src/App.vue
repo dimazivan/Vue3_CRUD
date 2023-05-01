@@ -21,7 +21,7 @@
             </li>
           </ul>
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0" role="search">
-            <a href="#" target="_blank" class="btn btn-success">Kamu nanya</a>
+            <a href="https://github.com/dimazivan" target="_blank" class="btn btn-success">Kamu nanya</a>
           </ul>
         </div>
       </div>
