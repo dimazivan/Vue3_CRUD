@@ -164,6 +164,9 @@ export default {
             let category = product.category
             let thumbnail = product.thumbnail
             let fvoid = product.fvoid
+            // let id = route.params.ids
+
+            // console.log(id);
 
             axios.put(`http://localhost:8000/api/api_product/${route.params.id}`, {
                 title: title,

@@ -6,7 +6,20 @@ const routes = [
     {
         path: '/',
         name: 'home',
-        component: () => import( /* webpackChunkName: "home" */ '../frontend/home.vue')
+        component: () =>
+            import( /* webpackChunkName: "Auth" */ "../frontend/home.vue"),
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: () =>
+            import( /* webpackChunkName: "Auth" */ "../frontend/auth/login.vue"),
+    },
+    {
+        path: '/dashboard',
+        name: 'dashboard.index',
+        component: () =>
+            import( /* webpackChunkName: "Auth" */ "../frontend/dashboard/index.vue"),
     },
     {
         path: '/product',

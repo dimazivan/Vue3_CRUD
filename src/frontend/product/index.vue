@@ -34,7 +34,6 @@ const deleteData = async (id) => {
     //delete data with API
     await api.delete(`/api/api_product/${id}`)
         .then(() => {
-
             //call method "fetchDataProduct"
             fetchDataProduct();
         })
